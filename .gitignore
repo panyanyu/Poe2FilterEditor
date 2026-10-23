@@ -1,0 +1,27 @@
+# 构建产物
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userprefs
+*.cache
+
+# IDE
+.vs/
+.idea/
+.vscode/
+*.sln.docstates
+
+# 运行时产物
+*.bak
+*.tmp
+*.log
+publish/
+
+# 工具与系统
+.codebuddy/
+.claude/
+Thumbs.db
+desktop.ini

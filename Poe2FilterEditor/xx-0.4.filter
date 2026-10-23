@@ -1,0 +1,1506 @@
+# ====================
+# POE2 0.4 赛季专业物品过滤器
+# 版本：0.4.0
+# 更新日期：2025-01-01
+# 适用：通用刷图 / 赛季初到中后期
+# 数据来源：poe2db.tw
+# ====================
+# 价值等级说明：
+# S级 - 顶级价值（亮金/亮紫/深红，最大字体，强烈音效，大地图标）
+# A级 - 高价值（橙色/紫色，大字体，清晰音效，中地图标）
+# B级 - 中高价值（蓝色/青色，标准字体，弱提示音，小地图标）
+# C级 - 中等价值（绿色/灰绿，偏小字体，极弱音效，默认无图标）
+# D级 - 低价值（深灰，最小字体，默认无音效）
+# E级 - 无价值（隐藏）
+# ====================
+
+# ====================
+# SSS级 - 至尊价值物品
+# 颜色：
+#   边框颜色: RGB(255, 120, 0) 金边
+#   背景颜色: RGB(180, 0, 0, 200) 深红底
+#   文字颜色: RGB(255, 255, 255) 纯白色
+# 字体：45 (最大)
+# 音效：强烈，300音量
+# 地图图标：Size 0
+# ====================
+
+# 通货
+# 神圣石
+Show
+    Class "Currency"
+    BaseType == "Divine Orb"
+    SetBorderColor 255 120 0 255        # 金边
+    SetBackgroundColor 180 0 0 200      # 红底
+    SetTextColor 255 255 255 255        # 白字
+    SetFontSize 45
+    PlayEffect Red
+    MinimapIcon 0 Red Hexagon
+    CustomAlertSound "sounds/神圣石.mp3" 300
+
+# 卡兰德的魔镜
+Show
+    Mirrored True
+    Class "Currency"
+    BaseType == "Mirror of Kalandra"
+    SetBorderColor 255 120 0 255        # 金边
+    SetBackgroundColor 180 0 0 200      # 红底
+    SetTextColor 255 255 255 255        # 白字
+    SetFontSize 45
+    PlayEffect Red
+    MinimapIcon 0 Red Hexagon
+    CustomAlertSound "sounds/卡兰德的魔镜.mp3" 300
+
+# 辛格拉的发辫
+Show
+    Class "Currency"
+    BaseType "Hinekora's Lock"
+    SetBorderColor 255 120 0 255        # 金边
+    SetBackgroundColor 180 0 0 200      # 红底
+    SetTextColor 255 255 255 255        # 白字
+    SetFontSize 45
+    PlayEffect Red
+    MinimapIcon 0 Red Hexagon
+    CustomAlertSound "sounds/辛格拉的发辫.mp3" 300
+
+# 深渊
+# 光明预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Light"
+    SetBorderColor 255 120 0 255        # 金边
+    SetBackgroundColor 180 0 0 200      # 红底
+    SetTextColor 255 255 255 255        # 白字
+    SetFontSize 45
+    PlayEffect Red
+    MinimapIcon 0 Red Hexagon
+    CustomAlertSound "sounds/光明预兆.mp3" 300
+
+# 传奇装备
+# 传奇重革腰带
+Show
+    Rarity Unique
+    Class "Belts"
+    BaseType "Heavy Belt"
+    SetBorderColor 255 120 0 255        # 金边
+    SetBackgroundColor 180 0 0 200      # 红底
+    SetTextColor 255 255 255 255        # 白字
+    SetFontSize 45
+    PlayEffect Red
+    MinimapIcon 0 Red Hexagon
+    CustomAlertSound "sounds/传奇重革腰带.mp3" 300
+
+# ====================
+# S级 - 顶级价值物品
+# 颜色：亮金 RGB(255, 215, 0)
+# 字体：45 (最大)
+# 音效：强烈，300音量
+# 地图图标：Size 0
+# ====================
+
+# 崇高石
+Show
+    Class "Currency"
+    BaseType == "Exalted Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/崇高石.mp3" 300
+
+# 混沌石
+Show
+    Class "Currency"
+    BaseType == "Chaos Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/混沌石.mp3" 300
+
+# 高级崇高石
+Show
+    Class "Currency"
+    BaseType == "Greater Exalted Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/高级崇高石.mp3" 300
+
+# 高级混沌石
+Show
+    Class "Currency"
+    BaseType == "Greater Chaos Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/高级混沌石.mp3" 300
+
+# 瓦尔宝珠
+Show
+    Class "Currency"
+    BaseType "Vaal Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/瓦尔宝珠.mp3" 300
+
+# 机会石
+Show
+    Class "Currency"
+    BaseType "Orb of Chance"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/机会石.mp3" 200
+
+# 深渊
+# 左旋死灵预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Sinistral Necromancy"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/左旋死灵预兆.mp3" 300
+
+# 右旋死灵预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Dextral Necromancy"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/右旋死灵预兆.mp3" 300
+
+# 深渊回响预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Abyssal Echoes"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/深渊回响预兆.mp3" 300
+
+# 远古预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of the Ancients"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/远古预兆.mp3" 300
+
+# 腐烂预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Putrefaction"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/腐烂预兆.mp3" 300
+
+# 遗存颚骨
+Show
+    Class == "Stackable Currency"
+    BaseType == "Preserved Jawbone"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/遗存颚骨.mp3" 300
+
+# 遗存肋骨
+Show
+    Class == "Stackable Currency"
+    BaseType == "Preserved Rib"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/遗存肋骨.mp3" 300
+
+# 遗存锁骨
+Show
+    Class == "Stackable Currency"
+    BaseType == "Preserved Collarbone"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/遗存锁骨.mp3" 300
+
+# 遗存头骨
+Show
+    Class == "Stackable Currency"
+    BaseType == "Preserved Cranium"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/遗存头骨.mp3" 300
+
+# 遗存椎骨
+Show
+    Class == "Stackable Currency"
+    BaseType == "Preserved Vertebrae"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/遗存椎骨.mp3" 300
+
+# 祭祀
+# 左旋崇高预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Sinistral Exaltation"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/左旋崇高预兆.mp3" 300
+
+# 右旋崇高预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Dextral Exaltation"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/右旋崇高预兆.mp3" 300
+
+# 左旋结晶预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Sinistral Crystallisation"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/左旋结晶预兆.mp3" 300
+
+# 右旋结晶预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Dextral Crystallisation"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/右旋结晶预兆.mp3" 300
+
+# 左旋消抹预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Sinistral Erasure"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/左旋消抹预兆.mp3" 300
+
+# 右旋消抹预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Dextral Erasure"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/右旋消抹预兆.mp3" 300
+
+# 左旋剥离预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Sinistral Annulment"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/左旋剥离预兆.mp3" 300
+
+# 右旋剥离预兆
+Show
+    Class == "Omen"
+    BaseType == "Omen of Dextral Annulment"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/右旋剥离预兆.mp3" 300
+
+# 剥离石
+Show
+    Class == "Stackable Currency"
+    BaseType == "Orb of Annulment"
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/剥离石.mp3" 300
+
+# 完美通货
+# 完美混沌石
+Show
+    Class "Currency"
+    BaseType "Perfect Chaos Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/完美混沌石.mp3" 300
+
+# 完美崇高石
+Show
+    Class "Currency"
+    BaseType "Perfect Exalted Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/完美崇高石.mp3" 300
+
+# 完美富豪石
+Show
+    Class "Currency"
+    BaseType "Perfect Regal Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/完美富豪石.mp3" 300
+
+# 完美增幅石
+Show
+    Class "Currency"
+    BaseType == "Perfect Orb of Augmentation"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/完美增幅石.mp3" 300
+
+# 完美蜕变石
+Show
+    Class "Currency"
+    BaseType "Perfect Orb of Transmutation"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/完美蜕变石.mp3" 300
+
+# 完美工匠石
+Show
+    Class "Currency"
+    BaseType "Perfect Jeweller's Orb"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/完美工匠石.mp3" 300
+
+# 宝库钥匙
+Show
+    Class "Vault Keys"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/宝库钥匙.mp3" 300
+
+# 巅峰钥匙
+Show
+    Class "Pinnacle Keys"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/巅峰钥匙.mp3" 300
+
+# 珠宝
+Show
+    Class "Jewels"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/珠宝.mp3" 300
+
+# 传奇项链
+Show
+    Rarity Unique
+    Class "Amulets"
+    DropLevel >= 70
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/传奇项链.mp3" 300
+
+# 传奇戒指
+Show
+    Rarity Unique
+    Class "Rings"
+    DropLevel >= 70
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/传奇戒指.mp3" 300
+
+# 传奇腰带
+Show
+    Rarity Unique
+    Class "Belts"
+    DropLevel >= 70
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/传奇腰带.mp3" 300
+
+# 传奇武器
+Show
+    Rarity Unique
+    Class "One Hand Axes" "Two Hand Axes" "One Hand Swords" "Two Hand Swords" "One Hand Maces" "Two Hand Maces" "Crossbows"
+    DropLevel >= 70
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/传奇武器.mp3" 300
+
+# 传奇法杖
+Show
+    Rarity Unique
+    Class "Staves" "Wands"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange Temp
+    CustomAlertSound "sounds/传奇法杖.mp3" 300
+
+# 高等级宝石
+# >=19级 技能宝石 (GemLevel >= 19)
+Show
+    Class "Gems"
+    BaseType "Uncut Skill Gem"
+    GemLevel >= 19
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/S级技能宝石.mp3" 300
+
+# 5级 辅助宝石 (GemLevel >= 5)
+Show
+    Class "Gems"
+    BaseType "Uncut Support Gem"
+    GemLevel >= 5
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/5级辅助宝石.mp3" 300
+
+# >=19级 精魂宝石 (GemLevel >= 19)
+Show
+    Class "Gems"
+    BaseType "Uncut Spirit Gem"
+    GemLevel >= 19
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/S级精魂宝石.mp3" 300
+
+# 雕像
+Show
+    Class == "Augment"
+    BaseType "Idol"
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/雕像.mp3" 250
+
+# S级基础装备 (ItemLevel >= 82)
+# 丝克玛便鞋
+Show
+    Class "Boots"
+    BaseType "Sekhema Sandals"
+    ItemLevel >= 82
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/丝克玛便鞋.mp3" 300
+
+# 塔萨里奥法器
+Show
+    Class "Foci"
+    BaseType "Tasalian Focus"
+    ItemLevel >= 82
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/塔萨里奥法器.mp3" 300
+
+# 先祖冠冕
+Show
+    Class "Helmets"
+    BaseType "Ancestral Tiara"
+    ItemLevel >= 82
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/先祖冠冕.mp3" 300
+
+# 邪恶束衣
+Show
+    Class "Body Armours"
+    BaseType "Vile Robe"
+    ItemLevel >= 82
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/邪恶束衣.mp3" 300
+
+# 海妖之鳞手套
+Show
+    Class "Gloves"
+    BaseType "Sirenscale Gloves"
+    ItemLevel >= 82
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/海妖之鳞手套.mp3" 300
+
+# 普通重革腰带
+Show
+    Class == "Belts"
+    BaseType == "Heavy Belt"
+    Rarity == Normal
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/普通重革腰带.mp3" 300
+
+# 罪孽短杖
+Show
+    Class == "Sceptres"
+    BaseType == "Rattling Sceptre"
+    Rarity >= Normal
+    ItemLevel >= 78
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/罪孽短杖.mp3" 300
+
+# 日曜护身符
+Show
+    Class == "Amulets"
+    BaseType == "Solar Amulet"
+    Rarity >= Normal
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/日曜护身符.mp3" 300
+
+# S级裂片类（4种）
+# 裂隙碎片
+Show
+    Class == "Stackable Currency"
+    BaseType == "Breach Splinter"
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/裂隙碎片.mp3" 300
+
+# 梦魇拟像裂片
+Show
+    Class == "Stackable Currency"
+    BaseType == "Simulacrum Splinter"
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/梦魇拟像裂片.mp3" 300
+
+# 请愿碎片
+Show
+    Class == "Stackable Currency"
+    BaseType == "Petition Splinter"
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow
+    CustomAlertSound "sounds/请愿碎片.mp3" 300
+
+# 符文碎片
+Show
+    Class == "Stackable Currency"
+    BaseType == "Runic Splinter"
+    SetBorderColor 255 215 0 255
+    SetBackgroundColor 255 215 0 80
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 2 Yellow Star
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/符文碎片.mp3" 300
+
+# 先驱石板
+Show
+    Class "Tablet"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/先驱石板.mp3" 300
+
+# 普通腰带
+Show
+    Class "Belts"
+    Rarity Normal
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/普通腰带.mp3" 300
+
+# 卓越装备 - 高品质
+Show 
+    Corrupted False
+    Quality >= 25
+    Class "Body Armours" "Bows" "Crossbows" "Quarterstaves" "Staves" "Two Hand Maces" "Boots" "Bucklers" "Foci" "Gloves" "Helmets" "One Hand Maces" "Sceptres" "Shields" "Spears" "Wands" "Talismans" 
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/卓越装备-高品质.mp3" 300
+
+# 卓越装备 - 三孔
+Show
+    Corrupted False
+    Sockets "3" "4" 
+    Class "Body Armours" "Bows" "Crossbows" "Quarterstaves" "Staves" "Two Hand Maces" "Talismans" 
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/卓越装备-三孔.mp3" 300
+
+# 卓越装备 - 两孔武器
+Show
+    Corrupted False
+    Sockets "2" "3" 
+    Class "One Hand Maces" "Sceptres" "Shields" "Spears" "Wands" "Bucklers" "Foci" 
+    SetBorderColor 255 120 0 255
+    SetBackgroundColor 70 30 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 45
+    MinimapIcon 0 Orange Star
+    PlayEffect Orange
+    CustomAlertSound "sounds/卓越装备-两孔武器.mp3" 300
+
+# 卓越装备 - 两孔手头鞋
+Show
+    Corrupted False
+    Sockets "2" "3" 
+    Class "Gloves" "Helmet" "Boots" 
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow
+    CustomAlertSound "sounds/卓越装备-两孔.mp3" 300
+
+# ====================
+# A级 - 高价值物品
+# 颜色：橙色 RGB(255, 165, 0)
+# 字体：40 (大)
+# 音效：清晰，250音量
+# 地图图标：Size 1-2
+# ====================
+
+# 高价值通货
+# 高级蜕变石
+Show
+    Class "Stackable Currency"
+    BaseType "Greater Orb of Transmutation"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/高级蜕变石.mp3" 250
+
+# 高级增幅石
+Show
+    Class "Stackable Currency"
+    BaseType == "Greater Orb of Augmentation"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/高级增幅石.mp3" 250
+
+# 高级富豪石
+Show
+    Class "Stackable Currency"
+    BaseType "Greater Regal Orb"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/高级富豪石.mp3" 250
+
+# 点金石
+Show
+    Class "Currency"
+    BaseType "Orb of Alchemy"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/点金石.mp3" 250
+
+# 低等工匠石
+Show
+    Class "Currency"
+    BaseType "Lesser Jeweller's Orb"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/低等工匠石.mp3" 250
+
+# 高等工匠石
+Show
+    Class "Currency"
+    BaseType "Greater Jeweller's Orb"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/高等工匠石.mp3" 250
+
+# 巧匠石
+Show
+    Class "Currency"
+    BaseType "Artificer's Orb"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/巧匠石.mp3" 250
+
+# 奥术师的铭刻
+Show
+    Class == "Stackable Currency"
+    BaseType == "Arcanist's Etcher"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/奥术师的铭刻.mp3" 250
+
+# 护甲片
+Show
+    Class == "Stackable Currency"
+    BaseType == "Armourer's Scrap"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/护甲片.mp3" 250
+
+# 玻璃弹珠
+Show
+    Class == "Stackable Currency"
+    BaseType == "Glassblower's Bauble"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/玻璃弹珠.mp3" 250
+
+# 磨刀石
+Show
+    Class == "Stackable Currency"
+    BaseType == "Blacksmith's Whetstone"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/磨刀石.mp3" 250
+
+# 宝石匠的棱镜
+Show
+    Class == "Stackable Currency"
+    BaseType == "Gemcutter's Prism"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/宝石匠的棱镜.mp3" 250
+
+# 高级符文
+Show
+    Class == "Augment"
+    BaseType "Rune"
+    DropLevel >= 52
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/高级符文.mp3" 250
+
+# 完美精华
+Show
+    Class == "Stackable Currency"
+    BaseType "Perfect Essence"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/完美精华.mp3" 250
+
+# 强效精华
+Show
+    Class == "Stackable Currency"
+    BaseType "Greater Essence"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/强效精华.mp3" 250
+
+# 传奇护甲 (中高等级)
+Show
+    Rarity Unique
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    DropLevel >= 60
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/传奇装备.mp3" 250
+
+# 传奇饰品 (中低等级)
+Show
+    Rarity Unique
+    Class "Amulets" "Rings" "Belts"
+    DropLevel < 70
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/传奇饰品.mp3" 250
+
+# 高等级引路石 (Tier 11-16)
+Show
+    Class "Waystones"
+    ItemLevel >= 74
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/引路石.mp3" 250
+
+# # A级宝石
+# 技能宝石
+Show
+    Class "Gems"
+    BaseType "Uncut Skill Gem"
+    GemLevel >= 1
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/技能宝石.mp3" 300
+
+# 辅助宝石
+Show
+    Class "Gems"
+    BaseType "Uncut Support Gem"
+    GemLevel >= 1
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/辅助宝石.mp3" 300
+
+# 精魂宝石
+Show
+    Class "Gems"
+    BaseType "Uncut Spirit Gem"
+    GemLevel >= 1
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/精魂宝石.mp3" 300
+
+# A级基础装备
+# 丝克玛便鞋
+Show
+    Class "Boots"
+    BaseType "Sekhema Sandals"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/丝克玛便鞋.mp3" 300
+
+# 塔萨里奥法器
+Show
+    Class "Foci"
+    BaseType "Tasalian Focus"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/塔萨里奥法器.mp3" 300
+
+# 先祖冠冕
+Show
+    Class "Helmets"
+    BaseType "Ancestral Tiara"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/先祖冠冕.mp3" 300
+
+# 邪恶束衣
+Show
+    Class "Body Armours"
+    BaseType "Vile Robe"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/邪恶束衣.mp3" 300
+
+# 海妖之鳞手套
+Show
+    Class "Gloves"
+    BaseType "Sirenscale Gloves"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/海妖之鳞手套.mp3" 300
+
+# ====================
+# B级 - 中高价值物品
+# 颜色：蓝色 RGB(0, 191, 255)
+# 字体：35 (标准)
+# 音效：弱提示，200音量
+# 地图图标：Size 1
+# ====================
+
+# 常用通货
+# 蜕变石
+Show
+    Class "Currency"
+    BaseType "Orb of Transmutation"
+    SetBorderColor 0 240 255 255
+    SetBackgroundColor 0 50 70 200
+    SetTextColor 255 255 255 255
+    SetFontSize 35
+    MinimapIcon 1 Blue Circle
+    PlayEffect Blue Temp
+    CustomAlertSound "sounds/蜕变石.mp3" 200
+
+# 增幅石
+Show
+    Class "Currency"
+    BaseType "Orb of Augmentation"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/增幅石.mp3" 250
+
+# 富豪石
+Show
+    Class "Currency"
+    BaseType "Regal Orb"
+    SetBorderColor 255 200 0 255
+    SetBackgroundColor 60 50 0 240
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Diamond
+    PlayEffect Yellow Temp
+    CustomAlertSound "sounds/富豪石.mp3" 250
+
+# 中等级引路石 (Tier 6-10)
+Show
+    Class "Waystones"
+    ItemLevel >= 70
+    ItemLevel < 74
+    SetBorderColor 0 240 255 255
+    SetBackgroundColor 0 50 70 200
+    SetTextColor 255 255 255 255
+    SetFontSize 35
+    MinimapIcon 1 Blue Circle
+    PlayEffect Blue Temp
+    CustomAlertSound "sounds/引路石.mp3" 200
+
+# 传奇装备 - 低等级
+Show
+    Rarity Unique
+    Class "Body Armours" "Helmets" "Gloves" "Boots" "Shields"
+    DropLevel < 60
+    SetBorderColor 0 240 255 255
+    SetBackgroundColor 0 50 70 200
+    SetTextColor 255 255 255 255
+    SetFontSize 33
+    MinimapIcon 1 Blue Circle
+    PlayEffect Blue Temp
+    CustomAlertSound "sounds/低等级传奇装备.mp3" 200
+
+# 传奇武器 - 低等级
+Show
+    Rarity Unique
+    Class "One Hand Axes" "Two Hand Axes" "One Hand Swords" "Two Hand Swords" "One Hand Maces" "Two Hand Maces" "Crossbows" "Bows" "Spears" "Quivers" "Bucklers" "Foci" "Charms"
+    DropLevel < 60
+    SetBorderColor 0 240 255 255
+    SetBackgroundColor 0 50 70 200
+    SetTextColor 255 255 255 255
+    SetFontSize 33
+    MinimapIcon 1 Blue Circle
+    PlayEffect Blue Temp
+    CustomAlertSound "sounds/低等级传奇装备.mp3" 200
+
+# ====================
+# C级 - 中等价值物品
+# 颜色：绿色 RGB(50, 205, 50)
+# 字体：30 (偏小)
+# 音效：极弱，150音量
+# 地图图标：不显示
+# ====================
+
+# 低等级引路石 (Tier 1-5)
+Show
+    Class "Waystones"
+    ItemLevel < 70
+    SetBorderColor 0 255 80 255
+    SetBackgroundColor 0 50 10 180
+    SetTextColor 220 220 220 255
+    SetFontSize 30
+    CustomAlertSound "sounds/引路石.mp3" 150
+
+# 4连装备
+Show
+    LinkedSockets 4
+    ItemLevel >= 50
+    SetBorderColor 0 255 80 255
+    SetBackgroundColor 0 50 10 180
+    SetTextColor 220 220 220 255
+    SetFontSize 30
+
+# 稀有装备 - 低物品等级
+Show
+    Rarity Rare
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    ItemLevel >= 50
+    ItemLevel < 60
+    SetBorderColor 0 255 80 255
+    SetBackgroundColor 0 50 10 180
+    SetTextColor 220 220 220 255
+    SetFontSize 28
+
+# 魔法装备 - 高物品等级
+Show
+    Rarity Magic
+    Class "Body Armours"
+    ItemLevel >= 70
+    SetBorderColor 0 255 80 255
+    SetBackgroundColor 0 50 10 180
+    SetTextColor 220 220 220 255
+    SetFontSize 28
+
+# ====================
+# D级 - 低价值物品
+# 颜色：深灰 RGB(105, 105, 105)
+# 字体：25 (最小)
+# 音效：无
+# 地图图标：不显示
+# ====================
+
+# 低品级装备
+Show
+    Rarity Rare
+    Class "Body Armours" "Helmets" "Gloves" "Boots" "Shields"
+    ItemLevel < 50
+    SetBorderColor 140 140 140 200
+    SetBackgroundColor 20 20 20 180
+    SetTextColor 180 180 180 255
+    SetFontSize 25
+
+Show
+    Rarity Rare
+    Class "One Hand Axes" "Two Hand Axes" "One Hand Swords" "Two Hand Swords" "One Hand Maces" "Two Hand Maces" "Bows" "Claws" "Daggers"
+    ItemLevel < 50
+    SetBorderColor 140 140 140 200
+    SetBackgroundColor 20 20 20 180
+    SetTextColor 180 180 180 255
+    SetFontSize 25
+
+# 魔法装备 - 中低物品等级
+Show
+    Rarity Magic
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    ItemLevel >= 50
+    ItemLevel < 70
+    SetBorderColor 140 140 140 200
+    SetBackgroundColor 20 20 20 180
+    SetTextColor 180 180 180 255
+    SetFontSize 25
+
+# 3连装备
+Show
+    LinkedSockets 3
+    ItemLevel < 60
+    SetBorderColor 140 140 140 200
+    SetBackgroundColor 20 20 20 180
+    SetTextColor 180 180 180 255
+    SetFontSize 25
+
+# ====================
+# E级 - 无价值/噪音物品
+# 隐藏
+# ====================
+
+# 普通装备 - 全部隐藏
+Hide
+    Rarity Normal
+    Class "Body Armours" "Helmets" "Gloves" "Boots" "Shields"
+    Height <= 4
+    Width <= 2
+
+Hide
+    Rarity Normal
+    Class "One Hand Axes" "One Hand Swords" "One Hand Maces" "Claws" "Daggers" "Wands"
+    Height <= 3
+    Width <= 1
+
+Hide
+    Rarity Normal
+    Class "Two Hand Axes" "Two Hand Swords" "Two Hand Maces" "Bows" "Staves"
+    Height <= 4
+    Width <= 2
+
+# 低价值魔法装备
+Hide
+    Rarity Magic
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    ItemLevel < 50
+
+Hide
+    Rarity Magic
+    Class "One Hand Axes" "Two Hand Axes" "One Hand Swords" "Two Hand Swords" "One Hand Maces" "Two Hand Maces" "Bows" "Claws" "Daggers" "Staves" "Wands"
+    ItemLevel < 50
+
+# 低品级稀有装备
+Hide
+    Rarity Rare
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    ItemLevel < 40
+
+Hide
+    Rarity Rare
+    Class "One Hand Axes" "Two Hand Axes" "One Hand Swords" "Two Hand Swords" "One Hand Maces" "Two Hand Maces" "Bows" "Claws" "Daggers" "Staves" "Wands"
+    ItemLevel < 40
+
+# 低连数装备
+Hide
+    LinkedSockets 1
+    LinkedSockets 2
+    Rarity Normal
+
+Hide
+    LinkedSockets 1
+    LinkedSockets 2
+    Rarity Magic
+    ItemLevel < 60
+
+# ====================
+# 特殊规则
+# ====================
+
+# 腐化物品 - 高品级显示
+Show
+    Corrupted True
+    Rarity Rare
+    ItemLevel >= 60
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    SetBorderColor 255 0 255 255
+    SetBackgroundColor 80 0 80 200
+    SetTextColor 255 255 255 255
+    SetFontSize 33
+    MinimapIcon 1 Pink Diamond
+    PlayEffect Pink Temp
+    CustomAlertSound "sounds/腐化装备.mp3" 200
+
+# 腐化传奇
+Show
+    Corrupted True
+    Rarity Unique
+    SetBorderColor 255 0 255 255
+    SetBackgroundColor 80 0 80 200
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Pink Diamond
+    PlayEffect Pink Temp
+    CustomAlertSound "sounds/腐化传奇.mp3" 250
+
+# 高阶未鉴定等级
+Show
+    Identified False
+    UnidentifiedItemTier >= 3
+    Rarity Rare
+    Class "Body Armours" "Helmets" "Gloves" "Boots"
+    SetBorderColor 0 255 255 255
+    SetBackgroundColor 0 60 60 200
+    SetTextColor 255 255 255 255
+    SetFontSize 33
+    MinimapIcon 1 Cyan Diamond
+    PlayEffect Cyan Temp
+    CustomAlertSound "sounds/高阶未鉴定装备.mp3" 200
+
+# 影响之力装备
+Show
+    HasInfluence Shaper Elder Crusader Hunter Redeemer Warlord
+    Rarity Rare
+    ItemLevel >= 70
+    SetBorderColor 255 0 255 255
+    SetBackgroundColor 80 0 80 200
+    SetTextColor 255 255 255 255
+    SetFontSize 35
+    MinimapIcon 2 Purple Diamond
+    PlayEffect Purple Temp
+    CustomAlertSound "sounds/影响之力装备.mp3" 200
+
+# 大额金币 (独立样式 - 炫目黄)
+Show
+    Class == "Stackable Currency"
+    BaseType == "Gold"
+    StackSize >= 5000
+    SetBorderColor 255 255 0 255
+    SetBackgroundColor 100 80 0 220
+    SetTextColor 255 255 255 255
+    SetFontSize 40
+    MinimapIcon 2 Yellow Circle
+    PlayEffect Yellow Temp
+    PlayAlertSound 2 200
+
+# 高物等底子 (ItemLevel >= 82) (独立样式 - 月光银)
+Show
+    ItemLevel >= 82
+    Rarity <= Rare
+    Class "Body Armours" "Helmets" "Gloves" "Boots" "Shields" "Amulets" "Rings" "Belts"
+    SetBorderColor 200 220 255 255
+    SetBackgroundColor 40 40 50 220
+    SetTextColor 255 255 255 255
+    SetFontSize 33
+    MinimapIcon 1 Cyan Circle
+    PlayEffect Cyan Temp
+    CustomAlertSound "sounds/高物等底子.mp3" 200
+
+# ====================
+# 过滤器结束
+# ====================

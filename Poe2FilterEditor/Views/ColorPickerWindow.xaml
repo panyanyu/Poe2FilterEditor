@@ -1,0 +1,137 @@
+<Window x:Class="Poe2FilterEditor.Views.ColorPickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="颜色"
+        Width="304"
+        Height="440"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        UseLayoutRounding="True">
+
+    <Window.Resources>
+        <Style x:Key="PickerSwatch" TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{StaticResource LineStrongBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource GoldLightBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="{StaticResource WindowBgBrush}">
+        <Grid Margin="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="HeaderText"
+                       Grid.Row="0"
+                       Text="边框颜色"
+                       FontSize="15"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource GoldLightBrush}"
+                       Margin="0,0,0,12" />
+
+            <!-- 预览 -->
+            <Border Grid.Row="1"
+                    Height="52"
+                    CornerRadius="5"
+                    BorderBrush="{StaticResource LineStrongBrush}"
+                    BorderThickness="1"
+                    Margin="0,0,0,14">
+                <Border x:Name="PreviewBorder" Background="#FFFFFF" CornerRadius="4">
+                    <TextBlock x:Name="PreviewText"
+                               Text="样例文本 106 0 0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="SemiBold" />
+                </Border>
+            </Border>
+
+            <!-- 滑块 -->
+            <StackPanel Grid.Row="2">
+                <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="R" Style="{StaticResource FieldLabel}" />
+                    <Slider x:Name="RSlider" Grid.Column="1" Minimum="0" Maximum="255" ValueChanged="OnSliderChanged" Margin="6,0" />
+                    <TextBlock x:Name="RValue" Grid.Column="2" Text="255" Style="{StaticResource MonoText}" TextAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="G" Style="{StaticResource FieldLabel}" />
+                    <Slider x:Name="GSlider" Grid.Column="1" Minimum="0" Maximum="255" ValueChanged="OnSliderChanged" Margin="6,0" />
+                    <TextBlock x:Name="GValue" Grid.Column="2" Text="255" Style="{StaticResource MonoText}" TextAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="B" Style="{StaticResource FieldLabel}" />
+                    <Slider x:Name="BSlider" Grid.Column="1" Minimum="0" Maximum="255" ValueChanged="OnSliderChanged" Margin="6,0" />
+                    <TextBlock x:Name="BValue" Grid.Column="2" Text="255" Style="{StaticResource MonoText}" TextAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="A" Style="{StaticResource FieldLabel}" ToolTip="透明度" />
+                    <Slider x:Name="ASlider" Grid.Column="1" Minimum="0" Maximum="255" ValueChanged="OnSliderChanged" Margin="6,0" />
+                    <TextBlock x:Name="AValue" Grid.Column="2" Text="255" Style="{StaticResource MonoText}" TextAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+            </StackPanel>
+
+            <!-- HEX -->
+            <Grid Grid.Row="3" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="46" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="HEX" Style="{StaticResource FieldLabel}" />
+                <TextBox x:Name="HexBox" Grid.Column="1" Text="#FFFFFF" LostFocus="OnHexLostFocus" KeyDown="OnHexKeyDown" />
+            </Grid>
+
+            <TextBlock Grid.Row="4" Text="常用颜色" Style="{StaticResource SectionTitle}" Margin="0,0,0,8" />
+
+            <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="PresetPanel" />
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+                <Button Content="取消" Click="OnCancel" Style="{StaticResource BaseButton}" Padding="18,7" Margin="0,0,8,0" />
+                <Button Content="确定" Click="OnConfirm" Style="{StaticResource PrimaryButton}" Padding="22,7" IsDefault="True" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

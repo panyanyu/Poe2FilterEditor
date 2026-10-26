@@ -36,9 +36,10 @@
 
 **物品映射表**
 
-- 内置 `Resources/items.json`：129 条物品、43 个类别，覆盖示例过滤器全部 BaseType。
-- 用户覆盖表 `%APPDATA%\Poe2FilterEditor\items.user.json`：界面里补录、或从设置里导入 JSON，同名条目优先。
-- 中文译名基于 poe2db 公开资料整理，可能与国服正式译名存在差异，发现不一致时补录即可覆盖。
+- 内置 `Resources/items.json`：122 条物品、43 个类别，覆盖示例过滤器绝大部分 BaseType。
+- 中文名直接取自 **poe2db.cn（流亡2编年史）的国服客户端数据**，2026-10 逐页抓取核对，例如 `Heavy Belt → 重革腰带`、`Artificer's Orb → 巧匠石`、`Soul Core of Tacati → 塔卡提的灵核`。
+- 0.4 版本中不存在的条目（`Lesser Orb of Transmutation`、`Jeweller's Orb`、`Precursor Tablet` 等）已从表中移除，避免误导。
+- 用户覆盖表 `%APPDATA%\Poe2FilterEditor\items.user.json`：界面里补录、或从设置里导入 JSON，同名条目优先；国服临时改名时无需等待程序更新。
 
 ## 运行
 

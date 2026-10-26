@@ -214,7 +214,7 @@ namespace Poe2FilterEditor.ViewModels
         }
 
         public string MappingSummary =>
-            $"内置映射 {Database.ItemCount} 条 · 类别 {Database.Classes.Count} 个 · 数据版本 {Database.Version ?? "未知"}";
+            $"内置映射 {Database.ItemCount} 条 · 类别 {Database.Classes.Count} 个 · 数据版本 {Database.Version ?? "未知"}\n{Database.Source}";
 
         public string MappingStatus { get; private set; } = string.Empty;
 

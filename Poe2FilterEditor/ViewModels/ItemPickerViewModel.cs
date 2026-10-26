@@ -12,6 +12,7 @@ namespace Poe2FilterEditor.ViewModels
     public enum PickerMode
     {
         Items,
+        Uniques,
         Classes
     }
 
@@ -54,9 +55,20 @@ namespace Poe2FilterEditor.ViewModels
             Sub = cls.En;
         }
 
+        public ItemPickRow(UniqueEntry unique)
+        {
+            Unique = unique;
+            Display = unique.NameCn;
+            Sub = $"{unique.NameEn} · {unique.SubLine}";
+        }
+
         public ItemEntry? Item { get; }
 
         public ClassEntry? Class { get; }
+
+        public UniqueEntry? Unique { get; }
+
+        public bool IsUnique => Unique != null;
 
         public string Display { get; }
 
@@ -103,13 +115,24 @@ namespace Poe2FilterEditor.ViewModels
 
         public PickerMode Mode { get; }
 
-        public string Title => Mode == PickerMode.Items ? "添加物品" : "添加物品类别";
+        public string Title => Mode switch
+        {
+            PickerMode.Items => "添加物品",
+            PickerMode.Uniques => "添加传奇物品",
+            _ => "添加物品类别"
+        };
 
-        public string Hint => Mode == PickerMode.Items
-            ? "按中文名或英文名搜索，勾选后点「添加」写入规则（文件内仍保存英文内部名）。"
-            : "按类别中文名搜索，勾选后点「添加」。";
+        public string Hint => Mode switch
+        {
+            PickerMode.Items => "按中文名或英文名搜索，勾选后点「添加」写入规则（文件内仍保存英文内部名）。",
+            PickerMode.Uniques => "按传奇中文名 / 英文名 / 基底搜索。过滤器只能按「基底 + 传奇稀有度」匹配，同基底的其它传奇也会一起命中。",
+            _ => "按类别中文名搜索，勾选后点「添加」。"
+        };
 
-        public bool ShowClassFilter => Mode == PickerMode.Items;
+        public bool ShowClassFilter => Mode != PickerMode.Classes;
+
+        /// <summary>补录映射只对普通物品有意义。</summary>
+        public bool ShowCustomEntry => Mode == PickerMode.Items;
 
         public ObservableCollection<ItemPickRow> Rows { get; } = new();
 
@@ -195,6 +218,14 @@ namespace Poe2FilterEditor.ViewModels
                     AddRow(new ItemPickRow(cls));
                 }
             }
+            else if (Mode == PickerMode.Uniques)
+            {
+                var classEn = SelectedClassFilter?.En;
+                foreach (var unique in _database.SearchUniques(SearchText, classEn))
+                {
+                    AddRow(new ItemPickRow(unique));
+                }
+            }
             else
             {
                 var classEn = SelectedClassFilter?.En;
@@ -231,6 +262,9 @@ namespace Poe2FilterEditor.ViewModels
 
         public IReadOnlyList<ItemEntry> PickedItems =>
             Rows.Where(r => r.IsSelected && r.Item != null).Select(r => r.Item!).ToList();
+
+        public IReadOnlyList<UniqueEntry> PickedUniques =>
+            Rows.Where(r => r.IsSelected && r.Unique != null).Select(r => r.Unique!).ToList();
 
         public IReadOnlyList<string> PickedClasses =>
             Rows.Where(r => r.IsSelected && r.Class != null).Select(r => r.Class!.En).ToList();

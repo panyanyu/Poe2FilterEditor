@@ -119,12 +119,20 @@
                                                 <TextBlock Text="{Binding Display}" FontSize="13" Foreground="{StaticResource TextBrush}" TextTrimming="CharacterEllipsis" />
                                                 <TextBlock Text="{Binding Sub}" Style="{StaticResource FaintText}" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" />
                                             </StackPanel>
-                                            <TextBlock Grid.Column="2"
-                                                       Text="未收录"
-                                                       Foreground="{StaticResource WarnLightBrush}"
-                                                       FontSize="10"
-                                                       VerticalAlignment="Center"
-                                                       Visibility="{Binding IsUnknown, Converter={StaticResource BoolToVis}}" />
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Border Background="#3A2C55"
+                                                        CornerRadius="3"
+                                                        Padding="5,1"
+                                                        Margin="0,0,6,0"
+                                                        Visibility="{Binding IsUnique, Converter={StaticResource BoolToVis}}">
+                                                    <TextBlock Text="传奇" FontSize="9" Foreground="#C9B6F0" FontWeight="SemiBold" />
+                                                </Border>
+                                                <TextBlock Text="未收录"
+                                                           Foreground="{StaticResource WarnLightBrush}"
+                                                           FontSize="10"
+                                                           VerticalAlignment="Center"
+                                                           Visibility="{Binding IsUnknown, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -148,9 +156,10 @@
 
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="映射表里没有的名字可以补录（保存在本机，不修改程序自带的映射）"
-                                   Style="{StaticResource FaintText}" />
+                                   Style="{StaticResource FaintText}"
+                                   Visibility="{Binding ShowCustomEntry, Converter={StaticResource BoolToVis}}" />
                         <StackPanel Orientation="Horizontal" Margin="0,7,0,0"
-                                    Visibility="{Binding ShowClassFilter, Converter={StaticResource BoolToVis}}">
+                                    Visibility="{Binding ShowCustomEntry, Converter={StaticResource BoolToVis}}">
                             <TextBox Width="180" Text="{Binding NewNameEn, UpdateSourceTrigger=PropertyChanged}" ToolTip="英文内部名，例如 Divine Orb" />
                             <TextBox Width="150" Text="{Binding NewNameCn, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,0,0" ToolTip="国服中文名，例如 神圣石" />
                             <ComboBox Width="150"

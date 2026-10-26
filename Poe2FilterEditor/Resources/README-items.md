@@ -30,7 +30,10 @@
   ],
   "items": [
     { "en": "Divine Orb", "cn": "神圣石", "class": "Currency" },
-    { "en": "Headhunter", "cn": "猎首", "class": "Belts", "unique": true }
+    { "en": "Heavy Belt", "cn": "重革腰带", "class": "Belts" }
+  ],
+  "uniques": [
+    { "en": "Headhunter", "cn": "猎首", "base": "Heavy Belt", "baseCn": "重革腰带" }
   ]
 }
 ```
@@ -44,7 +47,13 @@
 | `items[].en` | 是 | 物品英文内部名（BaseType） |
 | `items[].cn` | 否 | 国服中文名，缺省时显示英文 |
 | `items[].class` | 否 | 所属 Class 英文名，用于筛选与一致性校验 |
-| `items[].unique` | 否 | 是否为传奇物品，搜索时会优先展示 |
+| `uniques[].en` | 是 | 传奇英文名（仅用于展示与搜索，不写入过滤器） |
+| `uniques[].cn` | 否 | 传奇国服中文名 |
+| `uniques[].base` | 是 | 该传奇的基底英文名（BaseType），必须能在 `items` 中找到 |
+| `uniques[].baseCn` | 否 | 基底中文名，用于界面提示 |
+
+> 传奇不能按名字写进过滤器：选择传奇时，编辑器写入的是 `Rarity Unique` + 该传奇的 `BaseType`，
+> 因此同一基底上的其它传奇也会一起命中；界面会列出实际命中名单。
 
 ## 常见操作
 
@@ -58,3 +67,4 @@
 - 内置译名以 poe2db.cn 的国服数据为准；若与游戏内文本不一致（例如补丁后临时改名），以游戏内为准并补录覆盖。
 - 类别中文名同样按国服：`Soul Core → 灵核`、`Essence → 精华`、`Bucklers → 轻盾`、`Talismans → 魔符`、`Body Armours → 护甲`、`Bows → 弓类`、`Crossbows → 战弩`、`Spears → 战矛`、`Quarterstaves → 节杖`、`Staves → 长杖`、`Claws → 爪类`。
 - 如果某个英文名在表里查不到，界面会用琥珀色 `?` 标记并显示英文原名，**绝不会**丢失或改写原值。
+- 数据规模（0.4）：2496 条基底、436 件传奇、43 个类别；`items` 里不再混入传奇名，传奇统一放在 `uniques`。

@@ -214,7 +214,7 @@ namespace Poe2FilterEditor.ViewModels
         }
 
         public string MappingSummary =>
-            $"内置映射 {Database.ItemCount} 条 · 类别 {Database.Classes.Count} 个 · 数据版本 {Database.Version ?? "未知"}\n{Database.Source}";
+            $"内置基底 {Database.ItemCount} 条 · 传奇 {Database.UniqueCount} 件 · 类别 {Database.Classes.Count} 个 · 数据版本 {Database.Version ?? "未知"}\n{Database.Source}";
 
         public string MappingStatus { get; private set; } = string.Empty;
 
@@ -827,6 +827,26 @@ namespace Poe2FilterEditor.ViewModels
 
             rule.AddItems(items);
             StatusMessage = $"已为规则添加 {items.Count()} 个物品";
+        }
+
+        public void AddUniquesToSelected(IEnumerable<UniqueEntry> uniques)
+        {
+            var rule = SelectedRule;
+            if (rule == null)
+            {
+                return;
+            }
+
+            var list = uniques.ToList();
+            if (list.Count == 0)
+            {
+                return;
+            }
+
+            rule.AddUniques(list);
+
+            var baseCount = list.Select(u => u.BaseEn).Distinct(StringComparer.OrdinalIgnoreCase).Count();
+            StatusMessage = $"已按 {list.Count} 件传奇添加筛选：{baseCount} 个基底（同基底的其它传奇也会命中）";
         }
 
         public void AddClassesToSelected(IEnumerable<string> classes)

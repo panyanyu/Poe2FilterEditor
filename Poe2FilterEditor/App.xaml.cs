@@ -44,7 +44,7 @@ namespace Poe2FilterEditor
                 main.Close();
 
                 var database = ItemDatabase.Load(AppContext.BaseDirectory, null);
-                foreach (var mode in new[] { PickerMode.Items, PickerMode.Classes })
+                foreach (var mode in new[] { PickerMode.Items, PickerMode.Uniques, PickerMode.Classes })
                 {
                     var picker = new ItemPickerWindow(database, mode);
                     picker.Show();

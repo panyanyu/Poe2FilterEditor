@@ -149,6 +149,21 @@ namespace Poe2FilterEditor.Views
             }
         }
 
+        private void OnAddUnique(object sender, RoutedEventArgs e)
+        {
+            if (_vm.SelectedRule == null)
+            {
+                MessageBox.Show("请先在左侧选择一条规则。", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var uniques = ItemPickerWindow.PickUniques(this, _vm.Database);
+            if (uniques != null && uniques.Count > 0)
+            {
+                _vm.AddUniquesToSelected(uniques);
+            }
+        }
+
         private void OnAddClass(object sender, RoutedEventArgs e)
         {
             if (_vm.SelectedRule == null)

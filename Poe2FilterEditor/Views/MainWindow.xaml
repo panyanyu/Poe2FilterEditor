@@ -444,14 +444,48 @@
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
                                             </ItemsControl>
-                                            <Button Content="＋ 从国服物品库选择"
-                                                    Click="OnAddItem"
-                                                    Style="{StaticResource BaseButton}"
-                                                    HorizontalAlignment="Left"
-                                                    Padding="14,7"
-                                                    Margin="0,4,0,16"
-                                                    Foreground="{StaticResource GoldLightBrush}"
-                                                    BorderBrush="{StaticResource GoldDarkBrush}" />
+                                            <WrapPanel Margin="0,4,0,12">
+                                                <Button Content="＋ 从国服物品库选择"
+                                                        Click="OnAddItem"
+                                                        Style="{StaticResource BaseButton}"
+                                                        Padding="14,7"
+                                                        Margin="0,0,6,6"
+                                                        Foreground="{StaticResource GoldLightBrush}"
+                                                        BorderBrush="{StaticResource GoldDarkBrush}" />
+                                                <Button Content="＋ 添加传奇（按基底匹配）"
+                                                        Click="OnAddUnique"
+                                                        Style="{StaticResource BaseButton}"
+                                                        Padding="14,7"
+                                                        Margin="0,0,0,6"
+                                                        Foreground="#C9B6F0"
+                                                        BorderBrush="#4A3A66" />
+                                            </WrapPanel>
+
+                                            <Border Visibility="{Binding HasUniqueHits, Converter={StaticResource BoolToVis}}"
+                                                    Background="#221C2E"
+                                                    BorderBrush="#4A3A66"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5"
+                                                    Padding="12,9"
+                                                    Margin="0,0,0,14">
+                                                <StackPanel>
+                                                    <TextBlock Text="传奇匹配范围"
+                                                               FontSize="11"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#C9B6F0"
+                                                               Margin="0,0,0,4" />
+                                                    <TextBlock Text="{Binding UniqueHitSummary}"
+                                                               FontSize="12"
+                                                               Foreground="#B9A9D8"
+                                                               TextWrapping="Wrap"
+                                                               LineHeight="19" />
+                                                    <TextBlock Text="过滤器无法按传奇名匹配，只能用「基底 + Rarity Unique」；要精确到单件请在游戏内预览时留意。"
+                                                               FontSize="10.5"
+                                                               Foreground="{StaticResource TextFaintBrush}"
+                                                               TextWrapping="Wrap"
+                                                               Margin="0,5,0,0" />
+                                                </StackPanel>
+                                            </Border>
 
                                             <TextBlock Text="数值条件" Style="{StaticResource SectionTitle}" />
                                             <ItemsControl ItemsSource="{Binding Numerics}">

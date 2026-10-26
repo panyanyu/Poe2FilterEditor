@@ -135,6 +135,48 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 按传奇添加会写入基底与传奇稀有度()
+        {
+            RunSta(() =>
+            {
+                var (database, rule) = LoadDivineRule();
+                var vm = new RuleViewModel(rule, database, showChinese: true);
+
+                var headhunter = database.Uniques.First(u => u.NameEn == "Headhunter");
+                var waistgate = database.Uniques.First(u => u.NameEn == "Waistgate");
+
+                vm.AddUniques(new[] { headhunter, waistgate });
+
+                Assert.Equal("Unique", rule.FindCondition("Rarity")!.FirstValue);
+                var bases = rule.FindCondition("BaseType")!.Values;
+                Assert.Contains("Heavy Belt", bases);
+                Assert.Single(bases.Where(b => b == "Heavy Belt"));
+
+                Assert.Contains("Rarity Unique", vm.RuleText);
+                Assert.Contains("Heavy Belt", vm.RuleText);
+                Assert.Contains("猎首", vm.UniqueHitSummary);
+                Assert.True(vm.HasUniqueHits);
+            });
+        }
+
+        [Fact]
+        public void 移除基底后传奇命中提示消失()
+        {
+            RunSta(() =>
+            {
+                var (database, rule) = LoadDivineRule();
+                var vm = new RuleViewModel(rule, database, showChinese: true);
+
+                vm.AddUniques(new[] { database.Uniques.First(u => u.NameEn == "Headhunter") });
+                Assert.True(vm.HasUniqueHits);
+
+                vm.RemoveItem("Heavy Belt");
+                Assert.False(vm.HasUniqueHits);
+                Assert.Equal(string.Empty, vm.UniqueHitSummary);
+            });
+        }
+
+        [Fact]
         public void 稀有度与数值条件可写入并移除()
         {
             RunSta(() =>

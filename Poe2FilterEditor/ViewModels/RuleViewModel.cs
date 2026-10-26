@@ -212,7 +212,7 @@ namespace Poe2FilterEditor.ViewModels
 
                 BeforeEdit?.Invoke();
                 Model.SetConditionValue("Rarity", value);
-                RaisePropertyChanged(nameof(RarityValue), nameof(Subline));
+                RaisePropertyChanged(nameof(RarityValue), nameof(Subline), nameof(UniqueHitSummary), nameof(HasUniqueHits));
                 OnChanged();
             }
         }
@@ -295,6 +295,92 @@ namespace Poe2FilterEditor.ViewModels
             OnChanged();
         }
 
+        /// <summary>
+        /// 按传奇添加过滤：过滤器无法直接匹配传奇名，只能写「基底 + Rarity Unique」。
+        /// </summary>
+        public void AddUniques(IEnumerable<UniqueEntry> uniques)
+        {
+            var list = uniques.ToList();
+            if (list.Count == 0)
+            {
+                return;
+            }
+
+            var bases = list.Select(u => u.BaseEn)
+                .Where(b => !string.IsNullOrWhiteSpace(b))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (bases.Count == 0)
+            {
+                return;
+            }
+
+            var values = Model.FindCondition("BaseType")?.Values.ToList() ?? new List<string>();
+            var addedBase = false;
+            foreach (var baseName in bases)
+            {
+                if (values.All(v => !v.Equals(baseName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    values.Add(baseName);
+                    addedBase = true;
+                }
+            }
+
+            var rarityChanged = !string.Equals(RarityValue, "Unique", StringComparison.OrdinalIgnoreCase);
+            if (!addedBase && !rarityChanged)
+            {
+                return;
+            }
+
+            BeforeEdit?.Invoke();
+            Model.SetConditionValue("Rarity", "Unique");
+            if (addedBase)
+            {
+                Model.SetConditionValues("BaseType", values);
+            }
+
+            RebuildChips();
+            RaisePropertyChanged(nameof(RarityValue), nameof(Subline), nameof(Headline),
+                nameof(UniqueHitSummary), nameof(HasUniqueHits));
+            OnChanged();
+        }
+
+        /// <summary>当前「传奇 + 基底」会命中的传奇（仅用于界面提示）。</summary>
+        public IReadOnlyList<UniqueEntry> CoveredUniques
+        {
+            get
+            {
+                if (!string.Equals(RarityValue, "Unique", StringComparison.OrdinalIgnoreCase))
+                {
+                    return Array.Empty<UniqueEntry>();
+                }
+
+                var bases = Model.FindCondition("BaseType")?.Values;
+                return bases == null || bases.Count == 0
+                    ? Array.Empty<UniqueEntry>()
+                    : _database.UniquesForBases(bases);
+            }
+        }
+
+        public bool HasUniqueHits => CoveredUniques.Count > 0;
+
+        public string UniqueHitSummary
+        {
+            get
+            {
+                var list = CoveredUniques;
+                if (list.Count == 0)
+                {
+                    return string.Empty;
+                }
+
+                var names = string.Join("、", list.Take(8).Select(u => u.NameCn));
+                var tail = list.Count > 8 ? $" 等 {list.Count} 件" : $"（共 {list.Count} 件）";
+                return $"传奇稀有度 + 当前基底会命中：{names}{tail}";
+            }
+        }
+
         private void RebuildChips()
         {
             ItemChips.Clear();
@@ -310,7 +396,8 @@ namespace Poe2FilterEditor.ViewModels
                 ClassChips.Add(new ItemChipViewModel(entry, ShowChinese));
             }
 
-            RaisePropertyChanged(nameof(HasItemChips), nameof(HasClassChips), nameof(Headline), nameof(Subline));
+            RaisePropertyChanged(nameof(HasItemChips), nameof(HasClassChips), nameof(Headline), nameof(Subline),
+                nameof(UniqueHitSummary), nameof(HasUniqueHits));
         }
 
         private void RebuildOtherConditions()

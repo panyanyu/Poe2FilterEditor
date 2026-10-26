@@ -27,6 +27,13 @@ namespace Poe2FilterEditor.Views
             return window.ShowDialog() == true ? window._vm.PickedItems : null;
         }
 
+        /// <summary>打开传奇选择器，返回勾选的传奇；取消时返回 null。</summary>
+        public static IReadOnlyList<UniqueEntry>? PickUniques(Window owner, ItemDatabase database)
+        {
+            var window = new ItemPickerWindow(database, PickerMode.Uniques) { Owner = owner };
+            return window.ShowDialog() == true ? window._vm.PickedUniques : null;
+        }
+
         /// <summary>打开类别选择器，返回勾选的类别英文名；取消时返回 null。</summary>
         public static IReadOnlyList<string>? PickClasses(Window owner, ItemDatabase database)
         {
@@ -36,7 +43,13 @@ namespace Poe2FilterEditor.Views
 
         private void OnConfirm(object sender, RoutedEventArgs e)
         {
-            var count = _vm.Mode == PickerMode.Items ? _vm.PickedItems.Count : _vm.PickedClasses.Count;
+            var count = _vm.Mode switch
+            {
+                PickerMode.Items => _vm.PickedItems.Count,
+                PickerMode.Uniques => _vm.PickedUniques.Count,
+                _ => _vm.PickedClasses.Count
+            };
+
             if (count == 0)
             {
                 MessageBox.Show("请至少勾选一项。", "提示", MessageBoxButton.OK, MessageBoxImage.Information);

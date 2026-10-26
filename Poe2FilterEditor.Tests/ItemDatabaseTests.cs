@@ -35,6 +35,53 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 传奇数据可按名称与基底查询()
+        {
+            var database = CreateDatabase();
+
+            Assert.True(database.UniqueCount > 400, $"传奇数量偏少：{database.UniqueCount}");
+
+            var headhunter = database.Uniques.First(u => u.NameEn == "Headhunter");
+            Assert.Equal("猎首", headhunter.NameCn);
+            Assert.Equal("Heavy Belt", headhunter.BaseEn);
+            Assert.Equal("重革腰带", headhunter.BaseCn);
+
+            var belts = database.UniquesForBase("Heavy Belt");
+            Assert.Contains(belts, u => u.NameEn == "Headhunter");
+            Assert.Contains(belts, u => u.NameEn == "Waistgate");
+
+            Assert.Equal("Utility Belt", database.Uniques.First(u => u.NameEn == "Mageblood").BaseEn);
+
+            Assert.Contains(database.SearchUniques("猎首"), u => u.NameEn == "Headhunter");
+            Assert.Contains(database.SearchUniques("重革腰带"), u => u.BaseEn == "Heavy Belt");
+            Assert.All(database.SearchUniques(null, "Belts"), u => Assert.Equal("Belts", u.ClassEn));
+        }
+
+        [Fact]
+        public void 每件传奇的基底都能在物品表里找到()
+        {
+            var database = CreateDatabase();
+
+            var missing = database.Uniques
+                .Where(u => database.Lookup(u.BaseEn).IsUnknown)
+                .Select(u => u.NameEn + " -> " + u.BaseEn)
+                .ToList();
+
+            Assert.Empty(missing);
+        }
+
+        [Fact]
+        public void 物品库已覆盖全部主要类型()
+        {
+            var database = CreateDatabase();
+
+            Assert.True(database.ItemCount > 2000, $"物品数偏少：{database.ItemCount}");
+            Assert.Contains(database.Classes, c => c.En == "Body Armours" && c.Cn == "护甲");
+            Assert.Contains(database.Classes, c => c.En == "Soul Core" && c.Cn == "灵核");
+            Assert.Contains(database.Classes, c => c.En == "Tablet" && c.Cn == "石板");
+        }
+
+        [Fact]
         public void 未收录物品返回占位条目且不丢失原名()
         {
             var database = CreateDatabase();

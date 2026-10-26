@@ -44,6 +44,8 @@ namespace Poe2FilterEditor.Services
         private readonly Dictionary<string, ItemEntry> _byChineseName = new(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<string, ClassEntry> _classes = new(StringComparer.OrdinalIgnoreCase);
         private readonly List<ItemEntry> _userEntries = new();
+        private readonly List<UniqueEntry> _uniques = new();
+        private readonly Dictionary<string, List<UniqueEntry>> _uniquesByBase = new(StringComparer.OrdinalIgnoreCase);
 
         public ItemDatabase(string? userFilePath)
         {
@@ -57,6 +59,10 @@ namespace Poe2FilterEditor.Services
         public string? Source { get; private set; }
 
         public int ItemCount => _byEnglishName.Count;
+
+        public int UniqueCount => _uniques.Count;
+
+        public IReadOnlyList<UniqueEntry> Uniques => _uniques;
 
         public IReadOnlyList<ClassEntry> Classes =>
             _classes.Values.OrderBy(c => c.Cn, StringComparer.CurrentCulture).ToList();
@@ -130,7 +136,96 @@ namespace Poe2FilterEditor.Services
                 added++;
             }
 
+            foreach (var unique in dto.Uniques ?? Enumerable.Empty<UniqueDto>())
+            {
+                if (string.IsNullOrWhiteSpace(unique.En) || string.IsNullOrWhiteSpace(unique.Base))
+                {
+                    continue;
+                }
+
+                var baseEntry = Lookup(unique.Base);
+                var entry = new UniqueEntry(unique.En, unique.Cn ?? unique.En, unique.Base,
+                    unique.BaseCn ?? baseEntry.NameCn, baseEntry.ClassEn);
+
+                var existing = _uniques.FindIndex(u => u.NameEn.Equals(entry.NameEn, StringComparison.OrdinalIgnoreCase));
+                if (existing >= 0)
+                {
+                    _uniques[existing] = entry;
+                }
+                else
+                {
+                    _uniques.Add(entry);
+                }
+            }
+
+            RebuildUniqueIndex();
             return added;
+        }
+
+        private void RebuildUniqueIndex()
+        {
+            _uniquesByBase.Clear();
+            foreach (var unique in _uniques)
+            {
+                if (!_uniquesByBase.TryGetValue(unique.BaseEn, out var list))
+                {
+                    list = new List<UniqueEntry>();
+                    _uniquesByBase[unique.BaseEn] = list;
+                }
+
+                list.Add(unique);
+            }
+        }
+
+        /// <summary>按传奇中文名 / 英文名 / 基底搜索。</summary>
+        public IEnumerable<UniqueEntry> SearchUniques(string? query, string? classEn = null)
+        {
+            IEnumerable<UniqueEntry> source = _uniques;
+
+            if (!string.IsNullOrWhiteSpace(classEn))
+            {
+                source = source.Where(u => u.ClassEn.Equals(classEn, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                var q = query.Trim();
+                source = source.Where(u => u.Matches(q));
+            }
+
+            return source.OrderBy(u => u.NameCn, StringComparer.CurrentCulture);
+        }
+
+        public IReadOnlyList<UniqueEntry> UniquesForBase(string baseEn)
+        {
+            if (string.IsNullOrWhiteSpace(baseEn))
+            {
+                return Array.Empty<UniqueEntry>();
+            }
+
+            return _uniquesByBase.TryGetValue(baseEn, out var list)
+                ? list.OrderBy(u => u.NameCn, StringComparer.CurrentCulture).ToList()
+                : Array.Empty<UniqueEntry>();
+        }
+
+        /// <summary>给定一组基底，返回所有会命中这些基底的传奇。</summary>
+        public IReadOnlyList<UniqueEntry> UniquesForBases(IEnumerable<string> baseNames)
+        {
+            var result = new List<UniqueEntry>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var baseName in baseNames)
+            {
+                foreach (var unique in UniquesForBase(baseName))
+                {
+                    if (seen.Add(unique.NameEn))
+                    {
+                        result.Add(unique);
+                    }
+                }
+            }
+
+            return result;
         }
 
         private void Register(ItemEntry entry, bool isUser)
@@ -273,6 +368,24 @@ namespace Poe2FilterEditor.Services
 
             [JsonPropertyName("items")]
             public List<ItemDto>? Items { get; set; }
+
+            [JsonPropertyName("uniques")]
+            public List<UniqueDto>? Uniques { get; set; }
+        }
+
+        internal sealed class UniqueDto
+        {
+            [JsonPropertyName("en")]
+            public string En { get; set; } = string.Empty;
+
+            [JsonPropertyName("cn")]
+            public string? Cn { get; set; }
+
+            [JsonPropertyName("base")]
+            public string Base { get; set; } = string.Empty;
+
+            [JsonPropertyName("baseCn")]
+            public string? BaseCn { get; set; }
         }
 
         internal sealed class ClassDto

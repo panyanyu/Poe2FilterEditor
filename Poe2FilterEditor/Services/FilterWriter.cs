@@ -140,9 +140,14 @@ namespace Poe2FilterEditor.Services
             return generated;
         }
 
+        /// <summary>
+        /// 是否需要按模型重排版。停用状态本身不算「修改」：
+        /// 用户手动停用时 <see cref="FilterRule.IsModified"/> 已经是 true，
+        /// 而文件中本来就注释掉的规则应当原样写回，避免无意义的 diff。
+        /// </summary>
         public static bool NeedsRegenerate(FilterRule rule, bool normalizeOperators)
         {
-            var needs = rule.IsModified || rule.IsDisabled;
+            var needs = rule.IsModified || rule.IsDisabled != rule.OriginallyDisabled;
             if (normalizeOperators)
             {
                 needs |= rule.Conditions.Any(c => c.Op != CompareOp.Implicit);

@@ -10,6 +10,12 @@ namespace Poe2FilterEditor.Services
     /// </summary>
     public static class FilterFileService
     {
+        static FilterFileService()
+        {
+            // .NET 8 默认不带 GBK/GB2312；国服老过滤器和部分编辑器会存成 ANSI。
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         public static FilterDocument Load(string path)
         {
             var bytes = File.ReadAllBytes(path);
@@ -30,12 +36,12 @@ namespace Poe2FilterEditor.Services
 
             if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xFE)
             {
-                return (Encoding.Unicode.GetString(bytes, 2, bytes.Length - 2), new UnicodeEncoding(false, false), true);
+                return (Encoding.Unicode.GetString(bytes, 2, bytes.Length - 2), new UnicodeEncoding(false, true), true);
             }
 
             if (bytes.Length >= 2 && bytes[0] == 0xFE && bytes[1] == 0xFF)
             {
-                return (Encoding.BigEndianUnicode.GetString(bytes, 2, bytes.Length - 2), new UnicodeEncoding(true, false), true);
+                return (Encoding.BigEndianUnicode.GetString(bytes, 2, bytes.Length - 2), new UnicodeEncoding(true, true), true);
             }
 
             // 无 BOM：先按严格 UTF-8 解码，失败再用系统 ANSI（国服老文件可能是 GBK）
@@ -123,6 +129,7 @@ namespace Poe2FilterEditor.Services
                 rule.OriginalLines.Clear();
                 rule.OriginalLines.AddRange(lines);
                 rule.IsModified = false;
+                rule.OriginallyDisabled = rule.IsDisabled;
             }
         }
     }

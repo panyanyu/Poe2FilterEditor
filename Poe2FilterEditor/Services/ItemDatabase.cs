@@ -243,9 +243,18 @@ namespace Poe2FilterEditor.Services
                 _byChineseName[entry.NameCn] = entry;
             }
 
-            if (isUser && _userEntries.All(e => !e.NameEn.Equals(entry.NameEn, StringComparison.OrdinalIgnoreCase)))
+            if (isUser)
             {
-                _userEntries.Add(entry);
+                // 同名条目再次补录/导入时要替换，否则用户文件里会一直保留旧译名
+                var index = _userEntries.FindIndex(e => e.NameEn.Equals(entry.NameEn, StringComparison.OrdinalIgnoreCase));
+                if (index >= 0)
+                {
+                    _userEntries[index] = entry;
+                }
+                else
+                {
+                    _userEntries.Add(entry);
+                }
             }
         }
 

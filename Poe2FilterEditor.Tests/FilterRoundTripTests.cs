@@ -115,6 +115,47 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 以Show开头的说明注释不会被当成规则也不丢字()
+        {
+            const string text = "# Show 普通物品（示例）\n# 这段是说明文字\n\nShow\n    Class \"Currency\"\n";
+            var document = FilterParser.Parse(text, null);
+
+            Assert.Single(document.Rules);
+
+            var comment = Assert.Single(document.Nodes.OfType<CommentNode>());
+            Assert.Contains("Show 普通物品（示例）", comment.Lines[0]);
+
+            var written = FilterWriter.Write(document);
+            Assert.Equal(text.Replace("\r\n", "\n"), written.Replace("\r\n", "\n"));
+            Assert.Contains("普通物品（示例）", written);
+        }
+
+        [Fact]
+        public void 文件中已注释掉的规则可识别且原样写回()
+        {
+            const string text = "# Show\n#   Class \"Currency\"\n#   SetFontSize 45\n";
+            var document = FilterParser.Parse(text, null);
+
+            var rule = Assert.Single(document.Rules);
+            Assert.True(rule.IsDisabled);
+            Assert.Equal("Currency", rule.FindCondition("Class")!.FirstValue);
+
+            var written = FilterWriter.Write(document);
+            Assert.Equal(text.Replace("\r\n", "\n"), written.Replace("\r\n", "\n"));
+        }
+
+        [Fact]
+        public void 保存时不会重排文件中已有的停用规则()
+        {
+            // 原文件用的是 3 空格缩进 + 行尾注释，未被编辑时应逐字保留
+            const string text = "# Hide\n#   Class \"Currency\"   # 停用说明\n";
+            var document = FilterParser.Parse(text, null);
+
+            Assert.True(FilterWriter.NeedsRegenerate(document.Rules.Single(), false) == false);
+            Assert.Equal(text, FilterWriter.Write(document));
+        }
+
+        [Fact]
         public void 空行与行尾换行保持稳定()
         {
             const string text = "Show\n    Class \"Currency\"\n\n\nHide\n    Class \"Belts\"\n";

@@ -14,6 +14,12 @@ namespace Poe2FilterEditor.Models
         /// <summary>整块被注释掉的规则（停用）。</summary>
         public bool IsDisabled { get; set; }
 
+        /// <summary>
+        /// 解析时是否就是停用状态。用来判断「用户改动过停用状态」，
+        /// 避免每次保存都重排文件里本来就注释掉的规则。
+        /// </summary>
+        public bool OriginallyDisabled { get; set; }
+
         public List<FilterCondition> Conditions { get; } = new();
 
         public List<FilterAction> Actions { get; } = new();

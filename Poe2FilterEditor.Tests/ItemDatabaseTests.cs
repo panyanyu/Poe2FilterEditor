@@ -138,6 +138,29 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 重复补录同一物品会更新用户文件而不是保留旧值()
+        {
+            var database = CreateDatabase();
+            var userFile = database.UserFilePath!;
+
+            try
+            {
+                database.AddOrUpdateUserItem("Divine Orb", "神圣宝珠", "Currency");
+                database.AddOrUpdateUserItem("Divine Orb", "神圣之石", "Currency");
+
+                var reloaded = ItemDatabase.Load(AppContext.BaseDirectory, userFile);
+                Assert.Equal("神圣之石", reloaded.Lookup("Divine Orb").NameCn);
+            }
+            finally
+            {
+                if (File.Exists(userFile))
+                {
+                    File.Delete(userFile);
+                }
+            }
+        }
+
+        [Fact]
         public void 校验服务能发现非法字体大小与非标准比较符()
         {
             var database = CreateDatabase();

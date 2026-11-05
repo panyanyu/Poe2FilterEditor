@@ -12,7 +12,6 @@ namespace Poe2FilterEditor.Services
     public static class FilterParser
     {
         private static readonly Regex RuleHeader = new(@"^(Show|Hide)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex DisabledRuleHeader = new(@"^#+\s*(Show|Hide)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly string[] Operators = { "==", "!=", ">=", "<=", ">", "<" };
 
         public static FilterDocument Parse(string text, string? filePath = null)
@@ -83,19 +82,17 @@ namespace Poe2FilterEditor.Services
 
             var block = raw.GetRange(start, end - start);
 
-            // 整块注释掉的规则（停用）
+            // 整块注释掉的规则（停用）：首行必须是纯粹的 Show / Hide，
+            // 否则像「# Show 普通物品（示例）」这种说明性注释会被误判成规则，保存时丢掉行尾文字。
             if (block.Count > 0)
             {
                 var firstUncommented = Uncomment(block[0]).Trim();
-                if (DisabledRuleHeader.IsMatch(block[0]) || RuleHeader.IsMatch(firstUncommented))
+                var header = RuleHeader.Match(firstUncommented);
+                if (header.Success && firstUncommented.Length == header.Length)
                 {
-                    var header = RuleHeader.Match(firstUncommented);
-                    if (header.Success)
-                    {
-                        var inner = block.Select(Uncomment).ToList();
-                        var consumed = ParseRuleBody(inner, 0, header.Groups[1].Value, true, document, block);
-                        return start + Math.Min(consumed, block.Count);
-                    }
+                    var inner = block.Select(Uncomment).ToList();
+                    var consumed = ParseRuleBody(inner, 0, header.Groups[1].Value, document, block);
+                    return start + Math.Min(consumed, block.Count);
                 }
             }
 
@@ -144,14 +141,15 @@ namespace Poe2FilterEditor.Services
         }
 
         /// <summary>解析被整块注释的规则，返回消耗的行数。</summary>
-        private static int ParseRuleBody(List<string> inner, int start, string showHide, bool disabled,
+        private static int ParseRuleBody(List<string> inner, int start, string showHide,
             FilterDocument document, List<string> originalCommentLines)
         {
             var rule = new FilterRule
             {
                 LineNumber = start + 1,
                 IsShow = !showHide.Equals("Hide", StringComparison.OrdinalIgnoreCase),
-                IsDisabled = true
+                IsDisabled = true,
+                OriginallyDisabled = true
             };
 
             rule.OriginalLines.AddRange(originalCommentLines);

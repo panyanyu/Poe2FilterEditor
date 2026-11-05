@@ -156,6 +156,21 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 规则体内的缩进注释不会截断规则()
+        {
+            const string text = "Show\n    Class \"Currency\"\n    # 这是规则内的说明\n    BaseType \"Divine Orb\"\n    SetFontSize 45\n";
+            var document = FilterParser.Parse(text, null);
+
+            var rule = Assert.Single(document.Rules);
+            Assert.Equal("Currency", rule.FindCondition("Class")!.FirstValue);
+            Assert.Equal("Divine Orb", rule.FindCondition("BaseType")!.FirstValue);
+            Assert.Equal("45", rule.GetAction("SetFontSize")!.ArgAt(0));
+            Assert.Contains(rule.ExtraLines, l => l.Contains("这是规则内的说明"));
+
+            Assert.Equal(text.Replace("\r\n", "\n"), FilterWriter.Write(document).Replace("\r\n", "\n"));
+        }
+
+        [Fact]
         public void 空行与行尾换行保持稳定()
         {
             const string text = "Show\n    Class \"Currency\"\n\n\nHide\n    Class \"Belts\"\n";

@@ -46,7 +46,7 @@ namespace Poe2FilterEditor.Views
                     Tag = preset,
                     ToolTip = preset,
                     Cursor = Cursors.Hand,
-                    Style = (Style)FindResource("PickerSwatch")
+                    Style = (Style)FindResource("SwatchButton")
                 };
 
                 var brush = new SolidColorBrush(color);

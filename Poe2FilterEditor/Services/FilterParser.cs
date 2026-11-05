@@ -116,6 +116,15 @@ namespace Poe2FilterEditor.Services
 
                 if (line.TrimStart().StartsWith("#", StringComparison.Ordinal))
                 {
+                    // 缩进注释属于规则体（例如规则内的分段说明），不能截断规则；
+                    // 顶格的注释才是下一条规则的标题/分组。
+                    if (char.IsWhiteSpace(line[0]))
+                    {
+                        body.Add(line);
+                        end++;
+                        continue;
+                    }
+
                     break;
                 }
 

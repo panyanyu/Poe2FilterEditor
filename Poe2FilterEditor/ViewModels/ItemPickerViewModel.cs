@@ -86,6 +86,9 @@ namespace Poe2FilterEditor.ViewModels
     public sealed class ItemPickerViewModel : ObservableObject
     {
         private readonly ItemDatabase _database;
+        private readonly List<string> _selectedKeys = new();
+        private readonly Dictionary<string, UniqueEntry> _uniquesByKey = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, ClassEntry> _classesByKey = new(StringComparer.OrdinalIgnoreCase);
         private string _searchText = string.Empty;
         private ClassFilterOption? _selectedClassFilter;
         private string _newNameEn = string.Empty;
@@ -97,10 +100,16 @@ namespace Poe2FilterEditor.ViewModels
             _database = database;
             Mode = mode;
 
+            foreach (var unique in database.Uniques)
+            {
+                _uniquesByKey[unique.NameEn] = unique;
+            }
+
             ClassFilters.Add(new ClassFilterOption(null, "全部"));
             foreach (var cls in database.Classes)
             {
                 ClassFilters.Add(new ClassFilterOption(cls.En, cls.Cn));
+                _classesByKey[cls.En] = cls;
             }
 
             _selectedClassFilter = ClassFilters[0];
@@ -170,7 +179,8 @@ namespace Poe2FilterEditor.ViewModels
             }
         }
 
-        public int SelectedCount => Rows.Count(r => r.IsSelected);
+        /// <summary>已选数量（包含被搜索/筛选暂时隐藏的条目）。</summary>
+        public int SelectedCount => _selectedKeys.Count;
 
         public string SelectionSummary => SelectedCount == 0 ? "尚未选择" : $"已选择 {SelectedCount} 项";
 
@@ -238,20 +248,50 @@ namespace Poe2FilterEditor.ViewModels
             RaisePropertyChanged(nameof(SelectedCount), nameof(SelectionSummary));
         }
 
+        private static string KeyOf(ItemPickRow row) =>
+            row.Item?.NameEn ?? row.Unique?.NameEn ?? row.Class?.En ?? row.Display;
+
         private void AddRow(ItemPickRow row)
         {
+            // 用独立的选中集合记录状态，切换搜索/类别时勾选不会丢
+            row.IsSelected = _selectedKeys.Contains(KeyOf(row), StringComparer.OrdinalIgnoreCase);
+
             row.PropertyChanged += (_, args) =>
             {
-                if (args.PropertyName == nameof(ItemPickRow.IsSelected))
+                if (args.PropertyName != nameof(ItemPickRow.IsSelected))
                 {
-                    RaisePropertyChanged(nameof(SelectedCount), nameof(SelectionSummary));
+                    return;
                 }
+
+                SetSelected(KeyOf(row), row.IsSelected);
+                RaisePropertyChanged(nameof(SelectedCount), nameof(SelectionSummary));
             };
+
             Rows.Add(row);
+        }
+
+        private void SetSelected(string key, bool selected)
+        {
+            if (selected)
+            {
+                if (!_selectedKeys.Contains(key, StringComparer.OrdinalIgnoreCase))
+                {
+                    _selectedKeys.Add(key);
+                }
+            }
+            else
+            {
+                _selectedKeys.RemoveAll(k => k.Equals(key, StringComparison.OrdinalIgnoreCase));
+            }
         }
 
         private void SetAll(bool selected)
         {
+            if (!selected)
+            {
+                _selectedKeys.Clear();
+            }
+
             foreach (var row in Rows)
             {
                 row.IsSelected = selected;
@@ -261,13 +301,19 @@ namespace Poe2FilterEditor.ViewModels
         }
 
         public IReadOnlyList<ItemEntry> PickedItems =>
-            Rows.Where(r => r.IsSelected && r.Item != null).Select(r => r.Item!).ToList();
+            Mode != PickerMode.Items
+                ? Array.Empty<ItemEntry>()
+                : _selectedKeys.Select(_database.Lookup).Where(e => !e.IsUnknown).ToList();
 
         public IReadOnlyList<UniqueEntry> PickedUniques =>
-            Rows.Where(r => r.IsSelected && r.Unique != null).Select(r => r.Unique!).ToList();
+            Mode != PickerMode.Uniques
+                ? Array.Empty<UniqueEntry>()
+                : _selectedKeys.Where(_uniquesByKey.ContainsKey).Select(k => _uniquesByKey[k]).ToList();
 
         public IReadOnlyList<string> PickedClasses =>
-            Rows.Where(r => r.IsSelected && r.Class != null).Select(r => r.Class!.En).ToList();
+            Mode != PickerMode.Classes
+                ? Array.Empty<string>()
+                : _selectedKeys.Where(_classesByKey.ContainsKey).ToList();
 
         /// <summary>未收录名称可以直接补录到用户映射表。</summary>
         public void AddCustom()
@@ -290,8 +336,14 @@ namespace Poe2FilterEditor.ViewModels
             if (row != null)
             {
                 row.IsSelected = true;
-                RaisePropertyChanged(nameof(SelectedCount), nameof(SelectionSummary));
             }
+            else
+            {
+                // 新条目可能不在当前筛选结果里，仍然记录选中
+                SetSelected(nameEn, true);
+            }
+
+            RaisePropertyChanged(nameof(SelectedCount), nameof(SelectionSummary));
 
             RaisePropertyChanged(nameof(StatusMessage));
         }

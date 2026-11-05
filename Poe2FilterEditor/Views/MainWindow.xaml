@@ -25,62 +25,6 @@
         <infra:InverseBoolConverter x:Key="InverseBool" />
         <infra:BoolToBrushConverter x:Key="BoolToBrush" />
 
-        <!-- 标签上的小叉 -->
-        <Style x:Key="ChipCloseButton" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="16" />
-            <Setter Property="Height" Value="16" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="7,0,0,0" />
-            <Setter Property="FontSize" Value="10" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Focusable" Value="False" />
-            <Setter Property="Foreground" Value="{StaticResource TextFaintBrush}" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="Bd" Background="Transparent" CornerRadius="8">
-                            <TextBlock x:Name="Txt" Text="✕"
-                                       FontSize="10"
-                                       Foreground="{StaticResource TextFaintBrush}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#3E2622" />
-                                <Setter TargetName="Txt" Property="Foreground" Value="{StaticResource DangerLightBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- 颜色块按钮 -->
-        <Style x:Key="SwatchButton" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="42" />
-            <Setter Property="Height" Value="26" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Focusable" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{StaticResource LineStrongBrush}"
-                                BorderThickness="1"
-                                CornerRadius="4" />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource GoldLightBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <!-- 左栏：分组标题 -->
         <DataTemplate x:Key="SectionTemplate">
             <StackPanel Margin="12,14,10,4">
@@ -497,6 +441,7 @@
                                                                 <ColumnDefinition Width="118" />
                                                                 <ColumnDefinition Width="Auto" />
                                                                 <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
                                                             <CheckBox Grid.Column="0" IsChecked="{Binding IsEnabled}" VerticalAlignment="Center" Margin="0,0,9,0" />
                                                             <TextBlock Grid.Column="1" Text="{Binding ChineseName}" Style="{StaticResource FieldLabel}" />
@@ -510,7 +455,15 @@
                                                             <TextBox Grid.Column="3"
                                                                      Text="{Binding ValueText, UpdateSourceTrigger=PropertyChanged, Delay=250}"
                                                                      Width="96"
-                                                                     HorizontalAlignment="Left" />
+                                                                     HorizontalAlignment="Left"
+                                                                     BorderBrush="{Binding HasError, Converter={StaticResource BoolToBrush}, ConverterParameter='#B23A3A|#332C24'}" />
+                                                            <TextBlock Grid.Column="4"
+                                                                       Text="需要整数"
+                                                                       Foreground="{StaticResource DangerLightBrush}"
+                                                                       FontSize="11"
+                                                                       Margin="8,0,0,0"
+                                                                       VerticalAlignment="Center"
+                                                                       Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}" />
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
@@ -634,9 +587,9 @@
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock Grid.Column="0" Text="小地图图标" Style="{StaticResource FieldLabel}" />
                                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                                            <ComboBox Width="76" ItemsSource="{Binding IconSizeChoices}" DisplayMemberPath="Text" SelectedValuePath="Value" SelectedValue="{Binding MinimapSize}" Margin="0,0,6,0" ToolTip="大小" />
-                                                            <ComboBox Width="76" ItemsSource="{Binding IconColorChoices}" DisplayMemberPath="Text" SelectedValuePath="Value" SelectedValue="{Binding MinimapColorValue}" Margin="0,0,6,0" ToolTip="颜色" />
-                                                            <ComboBox Width="86" ItemsSource="{Binding IconShapeChoices}" DisplayMemberPath="Text" SelectedValuePath="Value" SelectedValue="{Binding MinimapShapeValue}" ToolTip="形状" />
+                                                            <ComboBox Width="76" ItemsSource="{Binding IconSizeChoices}" DisplayMemberPath="Text" SelectedValuePath="Value" SelectedValue="{Binding MinimapSize}" Margin="0,0,6,0" ToolTip="大小（选完后才能设置颜色/形状）" />
+                                                            <ComboBox Width="76" ItemsSource="{Binding IconColorChoices}" DisplayMemberPath="Text" SelectedValuePath="Value" SelectedValue="{Binding MinimapColorValue}" Margin="0,0,6,0" ToolTip="颜色" IsEnabled="{Binding CanEditMinimap}" />
+                                                            <ComboBox Width="86" ItemsSource="{Binding IconShapeChoices}" DisplayMemberPath="Text" SelectedValuePath="Value" SelectedValue="{Binding MinimapShapeValue}" ToolTip="形状" IsEnabled="{Binding CanEditMinimap}" />
                                                         </StackPanel>
                                                         <Button Grid.Column="2" Content="✕" Style="{StaticResource ChipCloseButton}" Click="OnClearMinimap" ToolTip="移除图标" />
                                                     </Grid>

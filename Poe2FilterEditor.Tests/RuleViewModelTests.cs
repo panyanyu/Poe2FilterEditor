@@ -177,6 +177,48 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 设置音效路径不会与可选音效并存()
+        {
+            RunSta(() =>
+            {
+                var database = ItemDatabase.Load(AppContext.BaseDirectory,
+                    Path.Combine(Path.GetTempPath(), "poe2-sound-" + Guid.NewGuid().ToString("N") + ".json"));
+                var document = FilterParser.Parse(
+                    "Show\n    Class \"Currency\"\n    CustomAlertSoundOptional \"sounds/a.mp3\" 300\n", null);
+                var rule = document.Rules.Single();
+                var vm = new RuleViewModel(rule, database, showChinese: true);
+
+                vm.SoundPath = "sounds/b.mp3";
+
+                var action = Assert.Single(rule.Actions);
+                Assert.Equal("CustomAlertSoundOptional", action.Keyword);
+                Assert.Equal("sounds/b.mp3", action.ArgAt(0));
+                Assert.Equal("300", action.ArgAt(1));
+                Assert.Null(rule.GetAction("CustomAlertSound"));
+            });
+        }
+
+        [Fact]
+        public void 数值条件输入非法值时会标记错误()
+        {
+            RunSta(() =>
+            {
+                var (database, rule) = LoadDivineRule();
+                var vm = new RuleViewModel(rule, database, showChinese: true);
+                var itemLevel = vm.Numerics.Single(n => n.Keyword == "ItemLevel");
+
+                itemLevel.IsEnabled = true;
+                itemLevel.ValueText = "abc";
+                Assert.True(itemLevel.HasError);
+                Assert.Null(rule.FindCondition("ItemLevel"));
+
+                itemLevel.ValueText = "82";
+                Assert.False(itemLevel.HasError);
+                Assert.Equal("82", rule.FindCondition("ItemLevel")!.FirstValue);
+            });
+        }
+
+        [Fact]
         public void 稀有度与数值条件可写入并移除()
         {
             RunSta(() =>

@@ -82,36 +82,54 @@ namespace Poe2FilterEditor.Services
             Buffer.BlockCopy(body, 0, payload, preamble.Length, body.Length);
 
             var tempPath = path + ".tmp";
-            File.WriteAllBytes(tempPath, payload);
-
-            if (File.Exists(path))
-            {
-                try
-                {
-                    File.Copy(path, path + ".bak", true);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"备份失败：{ex.Message}");
-                }
-            }
 
             try
             {
+                File.WriteAllBytes(tempPath, payload);
+
                 if (File.Exists(path))
                 {
-                    File.Replace(tempPath, path, null, true);
+                    try
+                    {
+                        File.Copy(path, path + ".bak", true);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"备份失败：{ex.Message}");
+                    }
                 }
-                else
+
+                try
                 {
-                    File.Move(tempPath, path);
+                    if (File.Exists(path))
+                    {
+                        File.Replace(tempPath, path, null, true);
+                    }
+                    else
+                    {
+                        File.Move(tempPath, path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"原子替换失败，回退为直接写入：{ex.Message}");
+                    File.Copy(tempPath, path, true);
                 }
             }
-            catch (Exception ex)
+            finally
             {
-                System.Diagnostics.Debug.WriteLine($"原子替换失败，回退为直接写入：{ex.Message}");
-                File.Copy(tempPath, path, true);
-                File.Delete(tempPath);
+                // 无论成功失败都不留下临时文件（成功时它已被 Replace/Move 消费）
+                if (File.Exists(tempPath))
+                {
+                    try
+                    {
+                        File.Delete(tempPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"清理临时文件失败：{ex.Message}");
+                    }
+                }
             }
 
             document.FilePath = path;

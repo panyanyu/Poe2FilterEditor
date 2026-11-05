@@ -9,28 +9,6 @@
         ShowInTaskbar="False"
         UseLayoutRounding="True">
 
-    <Window.Resources>
-        <Style x:Key="PickerSwatch" TargetType="{x:Type Button}">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{StaticResource LineStrongBrush}"
-                                BorderThickness="1"
-                                CornerRadius="4" />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource GoldLightBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
     <Border Background="{StaticResource WindowBgBrush}">
         <Grid Margin="16">
             <Grid.RowDefinitions>

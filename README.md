@@ -111,10 +111,17 @@ Poe2FilterEditor.Tests/  xunit 测试（解析往返、物品库、视图模型�
 ## 测试
 
 ```powershell
-dotnet test Poe2FilterEditor.sln
+dotnet test Poe2FilterEditor.sln                      # 单元测试（43 个）
+.\Poe2FilterEditor\bin\Debug\net8.0-windows\Poe2FilterEditor.exe --ui-smoke   # 无界面 XAML 自检
 ```
 
-覆盖：示例过滤器「解析 → 写回」零丢失往返、多值条件与行尾注释、停用规则、非标准比较符归一化、保存后重载、映射表双向查询与覆盖、规则标签增删与颜色修改等。
+覆盖：示例过滤器「解析 → 写回」零丢失往返、多值条件与行尾注释、停用规则、非标准比较符归一化、GBK/UTF-16/UTF-8-BOM 编码往返、保存后重载、映射表双向查询与数据完整性、传奇基底关联、选择器跨筛选勾选、规则标签增删与颜色修改等。
+
+推送到 GitHub 后会由 `.github/workflows/build.yml` 自动执行 build + test + UI 冒烟。
+
+## 维护
+
+- **更新物品译名**：`powershell -ExecutionPolicy Bypass -File tools\refresh-item-names.ps1`，从 poe2db 的 cn/us 页面重新生成 `Resources/items.json`（中英文按 slug 精确配对）。
 
 ## 说明
 

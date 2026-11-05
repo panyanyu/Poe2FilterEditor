@@ -43,6 +43,43 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 切换搜索与类别后已勾选的条目不丢失()
+        {
+            var vm = new ItemPickerViewModel(CreateDatabase(), PickerMode.Items);
+
+            vm.SearchText = "Divine Orb";
+            vm.Rows.First(r => r.Item!.NameEn == "Divine Orb").IsSelected = true;
+
+            vm.SearchText = "Chaos Orb";
+            vm.Rows.First(r => r.Item!.NameEn == "Chaos Orb").IsSelected = true;
+            Assert.Equal(2, vm.SelectedCount);
+
+            // 切到完全不同的筛选，之前的勾选仍然保留
+            vm.SearchText = string.Empty;
+            vm.SelectedClassFilter = vm.ClassFilters.First(c => c.En == "Rune");
+
+            Assert.Equal(2, vm.SelectedCount);
+            var picked = vm.PickedItems;
+            Assert.Equal(2, picked.Count);
+            Assert.Contains(picked, i => i.NameEn == "Divine Orb");
+            Assert.Contains(picked, i => i.NameEn == "Chaos Orb");
+        }
+
+        [Fact]
+        public void 清空按钮会连隐藏的勾选一起清掉()
+        {
+            var vm = new ItemPickerViewModel(CreateDatabase(), PickerMode.Items);
+
+            vm.SearchText = "Divine Orb";
+            vm.Rows.First(r => r.Item!.NameEn == "Divine Orb").IsSelected = true;
+            Assert.Equal(1, vm.SelectedCount);
+
+            vm.ClearSelectionCommand.Execute(null);
+            Assert.Equal(0, vm.SelectedCount);
+            Assert.Empty(vm.PickedItems);
+        }
+
+        [Fact]
         public void 物品选择器仍然可以补录未收录名称()
         {
             var database = CreateDatabase();

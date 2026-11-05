@@ -82,6 +82,31 @@ namespace Poe2FilterEditor.Tests
         }
 
         [Fact]
+        public void 数据表结构完整()
+        {
+            var database = CreateDatabase();
+            var classNames = database.Classes.Select(c => c.En).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var seenItems = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var item in database.Search(null))
+            {
+                Assert.False(string.IsNullOrWhiteSpace(item.NameEn));
+                Assert.False(string.IsNullOrWhiteSpace(item.NameCn));
+                Assert.True(classNames.Contains(item.ClassEn), $"类别缺失：{item.NameEn} -> {item.ClassEn}");
+                Assert.True(seenItems.Add(item.NameEn), $"基底重复：{item.NameEn}");
+            }
+
+            var seenUniques = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var unique in database.Uniques)
+            {
+                Assert.False(string.IsNullOrWhiteSpace(unique.NameCn));
+                Assert.True(seenUniques.Add(unique.NameEn), $"传奇重复：{unique.NameEn}");
+                Assert.True(classNames.Contains(unique.ClassEn), $"传奇类别缺失：{unique.NameEn}");
+                Assert.False(database.Lookup(unique.BaseEn).IsUnknown, $"传奇基底不存在：{unique.NameEn} -> {unique.BaseEn}");
+            }
+        }
+
+        [Fact]
         public void 未收录物品返回占位条目且不丢失原名()
         {
             var database = CreateDatabase();

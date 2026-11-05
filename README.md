@@ -2,6 +2,9 @@
 
 一个面向《流放之路 2》国服玩家的 `.filter` 可视化编辑器：**界面全部显示国服中文名，写进文件的是客户端匹配所需的英文内部名**，导出的过滤器国际服 / 国服通用。
 
+> **直接下载**：[v1.0.0 发布页](https://github.com/panyanyu/Poe2FilterEditor/releases/latest)
+> Windows x64，解压即用（自包含版无需安装 .NET；也可以下体积更小的框架依赖版 + .NET 8 Desktop Runtime）
+
 ![界面预览](docs/screenshot.png)
 
 ## 为什么需要它

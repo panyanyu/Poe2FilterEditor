@@ -1,0 +1,39 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore & build
+        run: dotnet build Poe2FilterEditor.sln -c Release --nologo
+
+      - name: Unit tests
+        run: dotnet test Poe2FilterEditor.sln -c Release --no-build --nologo
+
+      - name: UI smoke test
+        timeout-minutes: 5
+        shell: pwsh
+        run: |
+          $exe = "Poe2FilterEditor\bin\Release\net8.0-windows\Poe2FilterEditor.exe"
+          $log = Join-Path $env:TEMP "poe2-ui-smoke.txt"
+          Remove-Item $log -ErrorAction SilentlyContinue
+          & $exe --ui-smoke
+          Start-Sleep -Seconds 3
+          if (-not (Test-Path $log)) { throw "UI smoke produced no log" }
+          $content = Get-Content $log -Raw -Encoding UTF8
+          if ($content -notlike "UI-SMOKE-OK*") { throw "UI smoke failed: $content" }
+          Write-Host $content

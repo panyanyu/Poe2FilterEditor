@@ -31,9 +31,9 @@ jobs:
           $exe = "Poe2FilterEditor\bin\Release\net8.0-windows\Poe2FilterEditor.exe"
           $log = Join-Path $env:TEMP "poe2-ui-smoke.txt"
           Remove-Item $log -ErrorAction SilentlyContinue
-          & $exe --ui-smoke
-          Start-Sleep -Seconds 3
-          if (-not (Test-Path $log)) { throw "UI smoke produced no log" }
+          # GUI 进程必须等它真正退出，固定 sleep 在慢速 runner 上会误判
+          $proc = Start-Process -FilePath $exe -ArgumentList "--ui-smoke" -PassThru -Wait
+          if (-not (Test-Path $log)) { throw "UI smoke produced no log (exit code $($proc.ExitCode))" }
           $content = Get-Content $log -Raw -Encoding UTF8
           if ($content -notlike "UI-SMOKE-OK*") { throw "UI smoke failed: $content" }
           Write-Host $content
